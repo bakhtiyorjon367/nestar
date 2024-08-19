@@ -9,3 +9,4 @@ import {ConfigModule} from "@nestjs/config"
   providers: [NestarBatchService],
 })
 export class NestarBatchModule {}
+

@@ -6,3 +6,4 @@ export class NestarBatchService {
     return 'Hello Nestar BATCH server!';
   }
 }
+
