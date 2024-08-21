@@ -6,3 +6,4 @@ import { PropertyModule } from './property/property.module';
   imports: [MemberModule, PropertyModule]
 })
 export class ComponentsModule {}
+
