@@ -78,4 +78,8 @@ export class Member {
 
     @Field(() => Date)
     updatedAt:Date;
+
+    //Token__________________
+    @Field(()=>String, {nullable:true})
+    accessToken?:string;
 }
