@@ -3,6 +3,10 @@ import { MemberService } from './member.service';
 import { LoginInput, MemberInput } from '../../libs/dto/member/member.input';
 import { Member } from '../../libs/dto/member/member';
 import { AuthService } from '../auth/auth.service';
+import { UseGuards } from '@nestjs/common';
+import { AuthGuard } from '../auth/guards/auth.guard';
+import { AuthMember } from '../auth/decorators/authMember.decorator';
+import { ObjectId } from 'mongoose';
 
 @Resolver()
 export class MemberResolver {
@@ -22,9 +26,11 @@ export class MemberResolver {
         return this.memberService.login(input);
     }
 
+    @UseGuards(AuthGuard)
     @Mutation(() => String)
-    public async updateMember(): Promise<string>{
+    public async updateMember(@AuthMember('_id') memberId:ObjectId): Promise<string>{
         console.log("Mutation: updateMember ");
+        
         return this.memberService.updateMember();
     }
 
