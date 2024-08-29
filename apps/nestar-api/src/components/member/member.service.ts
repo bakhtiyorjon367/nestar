@@ -43,17 +43,25 @@ export class MemberService {
             if(!isMatch){
                 throw new InternalServerErrorException(Message.WRONG_PASSWORD);
             }
-            
+
             response.accessToken = await this.authService.createToken(response);
         return response;
     }
 
     public async updateMember():Promise<string>{
-        return 'updateMember';
+        return 'updateMember executed';
     }
 
     public async getMember():Promise<string>{
-        return 'getMembers';
+        return 'getMembers executed';
+    }
+
+    public async getAllMembersByAdmin():Promise<string>{
+        return 'getAllMembersByAdmin executed';
+    }
+
+    public async updateMemberByAdmin():Promise<string>{
+        return 'updateMemberByAdmin executed';
     }
 
     
