@@ -82,13 +82,15 @@ export class Member {
     //Token__________________
     @Field(()=>String, {nullable:true})
     accessToken?:string;
-}
+}//____________________________________________________________________________________________________
+
 
 @ObjectType()
 export class TotalCounter {
     @Field(() => Int, {nullable:true})
     total:number
-}
+}//____________________________________________________________________________________________________
+
 
 @ObjectType()
 export class Members {
@@ -97,4 +99,5 @@ export class Members {
 
     @Field(() => [TotalCounter], {nullable:true})
     metaCounter:TotalCounter[];
-}
+}//____________________________________________________________________________________________________
+
