@@ -18,7 +18,7 @@ import { T } from './libs/types/common';
       uploads:false,
       autoSchemaFile: true,
       formatError:(error:T)=>{
-        const graphqlFormattedError ={
+        const graphqlFormattedError = {
           code: error?.extensions.code,
           message:error?.extension?.exception?.response.message || error?.extension?.response.message || error?.message,
         };

@@ -2,7 +2,6 @@ import { Mutation, Resolver, Query, Args } from '@nestjs/graphql';
 import { MemberService } from './member.service';
 import { AgentsInquiry, LoginInput, MemberInput, MembersInquiry } from '../../libs/dto/member/member.input';
 import { Member, Members } from '../../libs/dto/member/member';
-import { AuthService } from '../auth/auth.service';
 import { UseGuards } from '@nestjs/common';
 import { AuthGuard } from '../auth/guards/auth.guard';
 import { AuthMember } from '../auth/decorators/authMember.decorator';
@@ -109,16 +108,16 @@ export class MemberResolver {
         { createReadStream, filename, mimetype }: FileUpload,
         @Args('target') target: String,
         ): Promise<string> {
-            console.log('Mutation: imageUploader');
+          console.log('Mutation: imageUploader');
 
-            if (!filename) throw new Error(Message.UPLOAD_FAILED);
+        if (!filename) throw new Error(Message.UPLOAD_FAILED);
         const validMime = validMimeTypes.includes(mimetype);
         if (!validMime) throw new Error(Message.PROVIDE_ALLOWED_FORMAT);
-
+           
         const imageName = getSerialForImage(filename);
         const url = `uploads/${target}/${imageName}`;
         const stream = createReadStream();
-
+        
         const result = await new Promise((resolve, reject) => {
             stream
                 .pipe(createWriteStream(url))
@@ -127,8 +126,9 @@ export class MemberResolver {
         });
         if (!result) throw new Error(Message.UPLOAD_FAILED);
 
-    return url;
-    }
+        return url;
+    }//________________________________________________________________________________________________________________
+
 
     @UseGuards(AuthGuard)
     @Mutation((returns) => [String])
@@ -150,7 +150,7 @@ export class MemberResolver {
                 const imageName = getSerialForImage(filename);
                 const url = `uploads/${target}/${imageName}`;
                 const stream = createReadStream();
-
+                console.log("is here ");
                 const result = await new Promise((resolve, reject) => {
                     stream
                         .pipe(createWriteStream(url))
@@ -166,6 +166,7 @@ export class MemberResolver {
         });
 
         await Promise.all(promisedList);
-    return uploadedImages;
-    }
+        return uploadedImages;
+    }//________________________________________________________________________________________________________________
+
 }
