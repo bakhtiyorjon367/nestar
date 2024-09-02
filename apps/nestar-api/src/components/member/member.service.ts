@@ -7,7 +7,7 @@ import { MemberStatus, MemberType } from '../../libs/enums/member.enum';
 import { Direction, Message } from '../../libs/enums/common.enum';
 import { AuthService } from '../auth/auth.service';
 import { MemberUpdate } from '../../libs/dto/member/member.update';
-import { T } from '../../libs/types/common';
+import { StatisticModifier, T } from '../../libs/types/common';
 import { ViewService } from '../view/view.service';
 import { ViewGroup } from '../../libs/enums/view.enum';
 import { ViewInput } from '../../libs/dto/view/view.input';
@@ -150,5 +150,9 @@ export class MemberService {
         return result;
     }//____________________________________________________________________________________________________
 
+    public async memberStatsEditior(input:StatisticModifier):Promise<Member>{
+        const {_id, targetKey, modifier } = input;
+        return await this.memberModel.findByIdAndUpdate(_id,{$inc: {[targetKey]:modifier}}, {new:true}).exec();
+    }//____________________________________________________________________________________________________
     
 }
