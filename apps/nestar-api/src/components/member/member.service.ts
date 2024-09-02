@@ -100,7 +100,7 @@ export class MemberService {
         const { text } = input.search;
         const match:T = { memberType: MemberType.AGENT, memberStatus: MemberStatus.ACTIVE };
         const sort:T ={ [input?.sort  ?? 'createdAt']: input?.direction ?? Direction.DESC };
-
+        const metaCounter=0;
         if(text){ match.memberNick = {$regex: new RegExp(text, "i")} };
         console.log('match', match);
 
@@ -113,10 +113,6 @@ export class MemberService {
                     metaCounter:[{$count: 'total'}],
                 }
             },
-            // {$project: { _id: 1, memberNick: 1, memberType:
-            //     { $ifNull: ["$memberType", ""] }
-            //     }},
-
         ]).exec();
         if(!result.length) throw new InternalServerErrorException(Message.NO_DATA_FOUND);
 
