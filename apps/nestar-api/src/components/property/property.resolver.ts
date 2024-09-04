@@ -8,6 +8,8 @@ import { RolesGuard } from '../auth/guards/roles.guard';
 import { MemberType } from '../../libs/enums/member.enum';
 import { AuthMember } from '../auth/decorators/authMember.decorator';
 import { ObjectId } from 'mongoose';
+import { WithoutGuard } from '../auth/guards/without.guard';
+import { shapeIntoMongoObjectId } from '../../libs/config';
 
 @Resolver()
 export class PropertyResolver {
@@ -26,6 +28,17 @@ export class PropertyResolver {
         return await this.propertyService.createProperty(input);
     }//____________________________________________________________________________________________________
 
+    @UseGuards(WithoutGuard)
+    @Mutation((returns) => Property)
+    public async getProperty(
+        @Args('propertyId') input:string, 
+        @AuthMember('_id')  memberId: ObjectId 
+    ):Promise<Property>{
+        console.log("Query: getProperty");
+       const  propertyId = shapeIntoMongoObjectId(input);
+
+        return await this.propertyService.getProperty(memberId, propertyId);
+    }//____________________________________________________________________________________________________
 
 
 }

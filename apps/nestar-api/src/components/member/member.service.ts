@@ -10,7 +10,6 @@ import { MemberUpdate } from '../../libs/dto/member/member.update';
 import { StatisticModifier, T } from '../../libs/types/common';
 import { ViewService } from '../view/view.service';
 import { ViewGroup } from '../../libs/enums/view.enum';
-import { ViewInput } from '../../libs/dto/view/view.input';
 
 @Injectable()
 export class MemberService {
