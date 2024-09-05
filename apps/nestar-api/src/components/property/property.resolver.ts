@@ -1,9 +1,9 @@
-import { Args, Mutation, Resolver } from '@nestjs/graphql';
+import { Args, Mutation,Query, Resolver } from '@nestjs/graphql';
 import { PropertyService } from './property.service';
 import { Properties, Property } from '../../libs/dto/property/property';
-import { PropertiesInquiry, PropertyInput } from '../../libs/dto/property/property.input';
+import { AgentPropertiesInquiry, PropertiesInquiry, PropertyInput } from '../../libs/dto/property/property.input';
 import { Roles } from '../auth/decorators/roles.decorator';
-import { Query, UseGuards } from '@nestjs/common';
+import {  UseGuards } from '@nestjs/common';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { MemberType } from '../../libs/enums/member.enum';
 import { AuthMember } from '../auth/decorators/authMember.decorator';
@@ -55,13 +55,24 @@ export class PropertyResolver {
     }//____________________________________________________________________________________________________
 
     @UseGuards(WithoutGuard)
-    @Mutation((returns) => Properties)
+    @Query((returns) => Properties)
     public async getProperties(
         @Args('input') input:PropertiesInquiry, 
         @AuthMember('_id')  memberId: ObjectId 
     ):Promise<Properties>{
         console.log("Mutation: getProperties");
         return await this.propertyService.getProperties(memberId, input);
+    }//____________________________________________________________________________________________________
+
+    @Roles(MemberType.AGENT)
+    @UseGuards(RolesGuard)
+    @Query((returns) => Properties)
+    public async getAgentProperties(
+        @Args('input') input:AgentPropertiesInquiry, 
+        @AuthMember('_id')  memberId: ObjectId 
+    ):Promise<Properties>{
+        console.log("Query: getAgentProperties");
+        return await this.propertyService.getAgentProperties(memberId, input);
     }//____________________________________________________________________________________________________
 
 }
