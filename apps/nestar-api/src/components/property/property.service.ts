@@ -112,8 +112,7 @@ export class PropertyService {
         if(!result.length) throw new InternalServerErrorException(Message.NO_DATA_FOUND);
 
         return result[0];
-    }//____________________________________________________________________________________________________
-
+    }
     private shapeMatchQuery(match:T, input:PropertiesInquiry):void {
         const {
             memberId,
