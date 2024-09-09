@@ -77,7 +77,6 @@ export class MemberResolver {
 
     //=========ADMIN===============================================================================================================================================================
     
-    //Authorithation: ADMIN
     @Roles(MemberType.ADMIN)
     @UseGuards(RolesGuard)
     @Query(() => Members)
