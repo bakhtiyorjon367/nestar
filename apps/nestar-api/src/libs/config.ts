@@ -15,7 +15,7 @@ export const availablePropertySorts = [
     'propertyPrice'
 ]
 export const availableBoardArticleSorts =['createdAt', 'updatedAt', 'articleLikes', 'articleViews'];
-
+export const availableComentSorts = ['createdAt', 'updatedAt']
  // IMAGE CONFIGURATION 
  export const validMimeTypes = ['image/png', 'image/jpg', 'image/jpeg'];
  export const getSerialForImage = (filename: string) => {
