@@ -6,8 +6,6 @@ import CommentSchema from '../../schemas/Comment.model';
 import { AuthModule } from '../auth/auth.module';
 import { MemberModule } from '../member/member.module';
 import { PropertyModule } from '../property/property.module';
-import { PropertyService } from '../property/property.service';
-import { BoardArticle } from '../../libs/dto/board-article/board-article';
 import { BoardArticleModule } from '../board-article/board-article.module';
 
 @Module({
