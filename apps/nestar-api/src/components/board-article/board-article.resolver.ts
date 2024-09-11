@@ -42,7 +42,8 @@ export class BoardArticleResolver {
     @Mutation(() => BoardArticle)
     public async updateBoardArticle(
         @Args('input') input:BoardArticleUpdate, 
-        @AuthMember('_id') memberId:ObjectId): Promise<BoardArticle>{
+        @AuthMember('_id') memberId:ObjectId
+    ): Promise<BoardArticle>{
         console.log("Mutation: updateBoardArticle ");
         input._id = shapeIntoMongoObjectId(input._id);
         return await this.boardArticleService.updateBoardArticle(memberId, input);

@@ -8,7 +8,7 @@ import { Comments, Comment} from '../../libs/dto/comment/comment';
 import { Direction, Message } from '../../libs/enums/common.enum';
 import { CommentGroup, CommentStatus } from '../../libs/enums/comment.enum';
 import { CommentInput, CommentsInquiry } from '../../libs/dto/comment/comment.input';
-import { lookupMember, shapeIntoMongoObjectId } from '../../libs/config';
+import { lookupMember } from '../../libs/config';
 import { CommentUpdate } from '../../libs/dto/comment/comment.update';
 import { T } from '../../libs/types/common';
 
