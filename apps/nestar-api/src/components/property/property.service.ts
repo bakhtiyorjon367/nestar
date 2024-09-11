@@ -12,13 +12,17 @@ import { ViewService } from '../view/view.service';
 import * as moment from 'moment';
 import { PropertyUpdate } from '../../libs/dto/property/property.update';
 import { lookupMember, shapeIntoMongoObjectId } from '../../libs/config';
+import { LikeService } from '../like/like.service';
+import { LikeInput } from '../../libs/dto/like/like.input';
+import { LikeGroup } from '../../libs/enums/like.enum';
 
 @Injectable()
 export class PropertyService {
     constructor(@InjectModel('Property') 
     private readonly propertyModel: Model<Property>, 
     private memberService: MemberService,
-    private viewService: ViewService) {}
+    private viewService: ViewService,
+    private  likeService: LikeService) {}
 
     public async createProperty(input:PropertyInput):Promise<Property> {
         try{
@@ -170,6 +174,23 @@ export class PropertyService {
 
         return result[0];
     }//____________________________________________________________________________________________________
+
+    public async likeTargetProperty(memberId: ObjectId, likeRefId: ObjectId):Promise<Property>{
+        const target:Property = await this.propertyModel.findOne({_id:likeRefId, propertyStatus: PropertyStatus.ACTIVE});
+        if(!target) throw new InternalServerErrorException(Message.NO_DATA_FOUND);
+
+        const input:LikeInput ={
+            memberId:memberId,
+            likeRefId:likeRefId,
+            likeGroup:LikeGroup.PROPERTY
+        };
+        let modifier:number = await this.likeService.toggleLike(input);
+        const result = this.propertyStatsEditor({_id:likeRefId, targetKey:'propertyLikes', modifier:modifier});
+
+        if(!result) throw new InternalServerErrorException(Message.SOMETHING_WENT_WRONG);
+        
+        return result;
+    }//_____________________________________________________________________________________________________
 
 
     public async getAllPropertiesByAdmin(input:AllPropertiesInquiry):Promise<Properties> {
