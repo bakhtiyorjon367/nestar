@@ -1,6 +1,7 @@
 import {ObjectId} from 'bson';
 import { v4 as uuidv4 } from 'uuid';
 import * as path from 'path';
+import { T } from './types/common';
 
 export const availableAgentSorts =['createdAt', 'updatedAt', 'memberLikes', 'memberViews', 'memberRank' ]
 export const availableMemberSorts =['createdAt', 'updatedAt', 'memberLikes', 'memberViews' ]
@@ -53,3 +54,34 @@ export const lookupFollowerData = {
         as: 'followerData'
     }
 }
+
+export const lookUpAuthMemberLiked = (memberId:T, targetRefId: string = '$_id') => {
+    return {
+        $lookup:{
+            from: 'likes',
+            let: {
+                localLikeRefId: targetRefId,
+                localMemberId: memberId,
+                localMyFavourite: true
+            },
+            pipeline: [
+                {
+                    $match:{
+                        $expr: {
+                            $and: [{$eq:['$likeRefId','$$localLikeRefId']}, { $eq:['$memberId', '$$localMemberId']}],
+                        },
+                    },
+                },
+                {
+                    $project:{
+                        _id: 0,
+                        memberId: 1,
+                        likeRefId: 1,
+                        myFavorite: '$$localMyFavourite',
+                    }
+                }
+            ],
+            as:'meLiked'
+        }
+    }
+};
