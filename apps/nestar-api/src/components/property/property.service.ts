@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, ObjectId } from 'mongoose';
-import { AgentPropertiesInquiry, AllPropertiesInquiry, PropertiesInquiry, PropertyInput } from '../../libs/dto/property/property.input';
+import { AgentPropertiesInquiry, AllPropertiesInquiry, OrdinaryInquiry, PropertiesInquiry, PropertyInput } from '../../libs/dto/property/property.input';
 import { Properties, Property } from '../../libs/dto/property/property';
 import { Direction, Message } from '../../libs/enums/common.enum';
 import { MemberService } from '../member/member.service';
@@ -143,7 +143,10 @@ export class PropertyService {
         }
     }//____________________________________________________________________________________________________
 
-        
+    public async getFavorites(memberId:ObjectId, input:OrdinaryInquiry):Promise<Properties>{
+        return await this.likeService.getFavoriteProperties(memberId,input);
+    }//____________________________________________________________________________________________________
+
 
     public async getAgentProperties(memberId:ObjectId, input:AgentPropertiesInquiry):Promise<Properties> {
         const {propertyStatus} =input.search;

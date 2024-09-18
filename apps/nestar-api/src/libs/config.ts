@@ -54,6 +54,14 @@ export const lookupFollowerData = {
         as: 'followerData'
     }
 }
+export const lookupFavorite = {
+    $lookup: {
+        from: 'members',
+        localField: 'favoriteProperty.memberId',
+        foreignField: '_id',
+        as: 'favoriteProperty.memberData'
+    }
+}
 
 export const lookUpAuthMemberLiked = (memberId:T, targetRefId: string = '$_id') => {
     return {
