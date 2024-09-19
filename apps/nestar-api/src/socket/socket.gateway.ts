@@ -4,7 +4,7 @@ import { Server } from 'ws';
 
 @WebSocketGateway({transports: ['websocket'], secure:false})
 export class SocketGateway implements OnGatewayInit{
-  private logger:Logger = new Logger('SocketEventsGateway')
+  private logger:Logger = new Logger('SocketEventsGateway');
   private summaryClient:number = 0;
 
   public afterInit(server: Server){
