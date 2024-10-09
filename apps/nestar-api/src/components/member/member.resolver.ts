@@ -182,6 +182,8 @@ export class MemberResolver {
         });
 
         await Promise.all(promisedList);
+        console.log(uploadedImages);
+        console.log(promisedList);
         return uploadedImages;
     }//________________________________________________________________________________________________________________
 
