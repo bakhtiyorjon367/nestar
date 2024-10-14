@@ -58,12 +58,12 @@ export class PropertyInput {
    propertyDesc?:string
 
    @IsOptional()
-   @Field(() => String, {nullable:true})
-   propertyBarter?:string
+   @Field(() => Boolean, {nullable:true})
+   propertyBarter?:boolean
 
    @IsOptional()
-   @Field(() => String, {nullable:true})
-   propertyRent?:string
+   @Field(() => Boolean, {nullable:true})
+   propertyRent?:boolean
 
    memberId: ObjectId;
 

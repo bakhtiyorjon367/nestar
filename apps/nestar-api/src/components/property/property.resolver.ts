@@ -31,7 +31,7 @@ export class PropertyResolver {
     }//____________________________________________________________________________________________________
 
     @UseGuards(WithoutGuard)
-    @Mutation((returns) => Property)
+    @Query((returns) => Property)
     public async getProperty(
         @Args('propertyId') input:string, 
         @AuthMember('_id')  memberId: ObjectId 

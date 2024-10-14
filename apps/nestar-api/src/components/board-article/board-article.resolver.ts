@@ -30,8 +30,8 @@ export class BoardArticleResolver {
     @UseGuards(WithoutGuard)
     @Query(() => BoardArticle)
     public async getBoardArticle(
-        @Args('memberId') input:string, 
-        @AuthMember('_id') memberId: ObjectId
+        @Args('articleId') input:string, 
+        @AuthMember('memberId') memberId: ObjectId
     ): Promise<BoardArticle>{
         console.log("Query: getBoardArticle ");
         const articleId = shapeIntoMongoObjectId(input);
@@ -52,7 +52,7 @@ export class BoardArticleResolver {
     @UseGuards(WithoutGuard)
     @Query(() => BoardArticles)
     public async getBoardArticles(
-        @Args('memberId') input:BoardArticlesInquiry, 
+        @Args('input') input:BoardArticlesInquiry, 
         @AuthMember('_id') memberId: ObjectId
     ): Promise<BoardArticles>{
         console.log("Query: getBoardArticles ");
@@ -61,7 +61,7 @@ export class BoardArticleResolver {
 
     @UseGuards(AuthGuard)
     @Mutation(() => BoardArticle)
-    public async likeTargetArticle(
+    public async likeTargetBoardArticle(
         @Args('articleId') input:string, 
         @AuthMember('_id') memberId: ObjectId
     ): Promise<BoardArticle>{
