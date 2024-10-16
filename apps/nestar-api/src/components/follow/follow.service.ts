@@ -42,19 +42,20 @@ export class FollowService {
         }
     }//_____________________________________________________________________________________________________
 
-    public async unsubscribe(followerId: ObjectId, followingId: ObjectId):Promise<Follower>{
+    public async unsubscribe(followerId: ObjectId, followingId: ObjectId): Promise<Follower> {
+
         const targetMember = await this.memberService.getMember(null, followingId);
-        if(!targetMember) throw new InternalServerErrorException(Message.NO_DATA_FOUND);
-       
+        if (!targetMember) throw new InternalServerErrorException(Message.NO_DATA_FOUND);
+
         const result = await this.followModel.findOneAndDelete({
             followingId: followingId,
             followerId: followerId,
-        });
-        if(!result) throw new InternalServerErrorException(Message.NO_DATA_FOUND);
-        
-        await this.memberService.memberStatsEditior({_id:followerId, targetKey:'memberFollowings', modifier:-1});
-        await this.memberService.memberStatsEditior({_id:followingId, targetKey:'memberFollowers', modifier:-1});
-      
+        }).exec();
+        if (!result) throw new InternalServerErrorException(Message.NO_DATA_FOUND);
+
+        await this.memberService.memberStatsEditior({ _id: followerId, targetKey: 'memberFollowings', modifier: -1 });
+        await this.memberService.memberStatsEditior({ _id: followingId, targetKey: 'memberFollowers', modifier: -1 });
+
         return result;
     }//_____________________________________________________________________________________________________
 
@@ -90,11 +91,11 @@ export class FollowService {
     }//___________________________________________________________________________________________________
 
     public async getMemberFollowers(memberId:ObjectId, input:FollowInquiry):Promise<Followers> {
-        const {page, limit, search} =input;
+        const {page, limit, search} = input;
         if(!search?.followingId) throw new InternalServerErrorException(Message.BAD_REQUEST);
         
         const match:T = {followingId: search?.followingId };
-        console.log("match: ", match);
+        console.log("match:", match);
 
         const result = await this.followModel.
         aggregate([
@@ -105,7 +106,7 @@ export class FollowService {
                     list: [
                         {$skip: (input.page - 1)* input.limit},
                         {$limit: input.limit},
-                        lookUpAuthMemberLiked(memberId, '$followerId'),//meLiked
+                        lookUpAuthMemberLiked(memberId, '$followerId'),          //meLiked
                         lookUpAuthMemberFollowed({                              //meFollowed
                             followerId:memberId, followingId:"$followerId"
                         }),

@@ -1,5 +1,5 @@
 import { UseGuards } from '@nestjs/common';
-import { Args, Mutation, Resolver } from '@nestjs/graphql';
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { AuthGuard } from '../auth/guards/auth.guard';
 import { Follower, Followers, Followings } from '../../libs/dto/follow/follow';
 import { AuthMember } from '../auth/decorators/authMember.decorator';
@@ -27,17 +27,16 @@ export class FollowResolver {
     @UseGuards(AuthGuard)
     @Mutation(() => Follower)
     public async unsubscribe(
-        @Args('input') input:string, 
-        @AuthMember('_id') memberId:ObjectId
-    ): Promise<Follower>{
-        console.log("Mutation: unsubscribe ");
+        @Args('input') input: string,
+        @AuthMember('_id') memberId: ObjectId,
+    ): Promise<Follower> {
+        console.log('Mutation: unsubscribe');
         const followingId = shapeIntoMongoObjectId(input);
-      
         return await this.followService.unsubscribe(memberId, followingId);
     }//____________________________________________________________________________________________________
 
     @UseGuards(WithoutGuard)
-    @Mutation(() => Followings)
+    @Query(() => Followings)
     public async getMemberFollowings(
         @Args('input') input:FollowInquiry, 
         @AuthMember('_id') memberId:ObjectId
@@ -50,7 +49,7 @@ export class FollowResolver {
     }//____________________________________________________________________________________________________
 
     @UseGuards(WithoutGuard)
-    @Mutation(() => Followers)
+    @Query(() => Followers)
     public async getMemberFollowers(
         @Args('input') input:FollowInquiry, 
         @AuthMember('_id') memberId:ObjectId
