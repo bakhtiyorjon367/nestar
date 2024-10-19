@@ -60,7 +60,7 @@ export class MemberService {
             }
 
             response.accessToken = await this.authService.createToken(response);
-            console.log(response.accessToken);
+            
         return response;
     }//____________________________________________________________________________________________________
 
@@ -109,8 +109,7 @@ export class MemberService {
         return targetMember;
     }
     private async checkSubscription(followerId: ObjectId, followingId: ObjectId): Promise<MeFollowed[]>{
-        const result = this.followModel.findOne({followingId: followingId, followerId: followerId});
-        
+        const result = await this.followModel.findOne({followingId: followingId, followerId: followerId}).exec();
         return result ? [{followingId: followingId, followerId: followerId, myFollowing: true}] : [];
     }//____________________________________________________________________________________________________
     
